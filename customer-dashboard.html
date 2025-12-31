@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer Dashboard | Let's Ride</title>
+    <link rel="stylesheet" href="./dashboard.css">
+</head>
+<body>
+
+<div class="app">
+
+    <header class="top-bar">
+        <div class="logo">🚗 Let's Ride</div>
+        <button class="logout">Logout</button>
+    </header>
+
+    <section class="content">
+        <h1>Book a Ride</h1>
+        <p class="sub">Find available drivers near you</p>
+
+        <div class="card">
+            <h2>Where to?</h2>
+            <p>Enter your pickup and drop-off locations</p>
+
+            <input type="text" placeholder="📍 Enter pickup location">
+            <input type="text" placeholder="📌 Enter drop-off location">
+
+            <!-- ✅ Button -->
+            <button class="find-btn" id="findVehiclesBtn">
+                Available Vehicles
+            </button>
+        </div>
+
+        <!-- ✅ Vehicles will be shown here -->
+        <h2 class="section-title">Available Vehicles</h2>
+        <div id="vehicleList"></div>
+
+    </section>
+
+</div>
+
+<script src="dashboard.js"></script>
+</body>
+</html>

@@ -1,38 +1,53 @@
-document.getElementById("customerForm").addEventListener("submit", registerCustomer);
+// Get latitude & longitude from browser
+function getLocation() {
+    if (!navigator.geolocation) {
+        alert("Geolocation is not supported by your browser");
+        return;
+    }
 
-function registerCustomer(event) {
+    navigator.geolocation.getCurrentPosition(
+        function (position) {
+            document.getElementById("latitude").value =
+                position.coords.latitude;
+
+            document.getElementById("longitude").value =
+                position.coords.longitude;
+        },
+        function (error) {
+            alert("Location permission denied");
+        }
+    );
+}
+
+// Submit form data to Spring Boot API
+document.getElementById("customerForm").addEventListener("submit", function (event) {
     event.preventDefault();
 
     const customerData = {
         name: document.getElementById("name").value,
-        age: document.getElementById("age").value,
+        age: Number(document.getElementById("age").value),
         gender: document.getElementById("gender").value,
-        mobileNo: document.getElementById("mobileno").value,
-        mail: document.getElementById("email").value,
-        latitude: document.getElementById("latitude").value,
-        longitude: document.getElementById("longitude").value,
+        mobileno: Number(document.getElementById("mobileno").value),
+        email: document.getElementById("email").value,
+        latitude: Number(document.getElementById("latitude").value),
+        longitude: Number(document.getElementById("longitude").value),
         password: document.getElementById("password").value
     };
 
-    fetch("http://localhost:8085/coustmer/register", {
+    fetch("http://localhost:8085/auth/register/customer", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+            "Content-Type": "application/json"
+        },
         body: JSON.stringify(customerData)
     })
-    .then(response => {
-        if (!response.ok) throw new Error("Registration failed");
-        return response.json();
-    })
+    .then(response => response.text())
     .then(data => {
-        // ✅ Redirect to dashboard
-        window.location.href = "customer-dashboard.html";
+        document.getElementById("message").innerText = data;
+        document.getElementById("customerForm").reset();
     })
     .catch(error => {
-        alert("❌ Registration failed");
         console.error(error);
+        document.getElementById("message").innerText = "Registration failed";
     });
-    function dashboard(){
-    window.location.href="customer-dashboard.html";
-}
-}
-
+});

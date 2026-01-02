@@ -1,100 +1,102 @@
+/* Reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Page background */
 body {
     min-height: 100vh;
+    background: linear-gradient(135deg, #141e30, #243b55);
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    /* Beautiful gradient background */
-    background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 50%, #ffecd2 100%);
 }
 
-.page {
+/* Page heading */
+h2 {
+    color: #ffffff;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+/* Form container */
+form {
+    background-color: #ffffff;
+    width: 380px;
+    padding: 30px 25px;
+    border-radius: 12px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Input & select fields */
+input,
+select {
     width: 100%;
-    display: flex;
-    justify-content: center;
-    padding: 20px;
+    padding: 11px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
 }
 
-/* Glassmorphic Registration Card */
-.register-card {
-    width: 400px;
-    padding: 40px 30px;
-    border-radius: 20px;
-
-    /* Glass effect */
-    background: rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-
-    /* Shadow */
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-
-    /* Optional gradient overlay */
-    border: 1px solid rgba(255, 255, 255, 0.3);
+/* Readonly fields */
+input[readonly] {
+    background-color: #f2f2f2;
+    cursor: not-allowed;
 }
 
-.register-card h1 {
-    text-align: center;
-    color: #ff6b00;
-    margin-bottom: 8px;
+/* Remove default spacing from <br> usage */
+br {
+    display: none;
 }
 
-.register-card p {
-    text-align: center;
-    margin-bottom: 25px;
-    color: #fff;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
-}
-
-/* Inputs */
-form input,
-form select {
-    width: 100%;
-    padding: 14px;
-    margin-bottom: 15px;
-    border-radius: 10px;
-    border: 1px solid rgba(255,255,255,0.4);
-    background: rgba(255,255,255,0.3);
-    color: #000;
-    font-size: 15px;
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-form input::placeholder,
-form select::placeholder {
-    color: #555;
-}
-
-form input:focus,
-form select:focus {
-    outline: none;
-    border-color: #ff6b00;
-    box-shadow: 0 0 0 3px rgba(255,107,0,0.2);
-    background: rgba(255,255,255,0.5);
-}
-
-/* Button */
+/* Buttons */
 button {
     width: 100%;
-    padding: 14px;
+    padding: 12px;
+    margin-top: 12px;
     border: none;
-    border-radius: 30px;
-    background: linear-gradient(135deg, #ff6b00, #ff8c42);
-    color: white;
-    font-size: 17px;
-    font-weight: 600;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: bold;
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
 }
 
-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(255,107,0,0.5);
+/* Location button */
+button[type="button"] {
+    background-color: #2196f3;
+    color: #ffffff;
 }
+
+button[type="button"]:hover {
+    background-color: #1976d2;
+}
+
+/* Submit button */
+button[type="submit"] {
+    background-color: #4caf50;
+    color: #ffffff;
+}
+
+button[type="submit"]:hover {
+    background-color: #388e3c;
+}
+
+/* Message text */
+#message {
+    margin-top: 15px;
+    color: #ffffff;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 420px) {
+    form {
+        width: 90%;
+    }
+}
+

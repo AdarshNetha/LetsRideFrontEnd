@@ -1,5 +1,25 @@
 document.getElementById("driverForm").addEventListener("submit", function(e) {
     e.preventDefault();
+    function getLocation() {
+    if (!navigator.geolocation) {
+        alert("Geolocation is not supported by your browser");
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+        function (position) {
+            document.getElementById("latitude").value =
+                position.coords.latitude;
+
+            document.getElementById("longitude").value =
+                position.coords.longitude;
+        },
+        function (error) {
+            alert("Location permission denied");
+        }
+    );
+}
+
 
     const driverData = {
         licenceNo: parseInt(document.getElementById("name").value), // Update if needed

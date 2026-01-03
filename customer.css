@@ -1,102 +1,91 @@
-/* Reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Segoe UI", sans-serif;
 }
 
-/* Page background */
 body {
     min-height: 100vh;
     background: linear-gradient(135deg, #141e30, #243b55);
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-/* Page heading */
-h2 {
-    color: #ffffff;
-    margin-bottom: 20px;
-    letter-spacing: 1px;
-}
-
-/* Form container */
-form {
-    background-color: #ffffff;
+/* Card container */
+.container {
+    background: #ffffff;
     width: 380px;
-    padding: 30px 25px;
-    border-radius: 12px;
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
 }
 
-/* Input & select fields */
-input,
-select {
+/* Heading */
+.container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Inputs */
+form input,
+form select {
     width: 100%;
-    padding: 11px 12px;
-    border: 1px solid #ccc;
+    padding: 12px;
+    margin-bottom: 14px;
     border-radius: 6px;
+    border: 1px solid #ccc;
     font-size: 14px;
 }
 
-/* Readonly fields */
 input[readonly] {
     background-color: #f2f2f2;
     cursor: not-allowed;
 }
 
-/* Remove default spacing from <br> usage */
-br {
-    display: none;
-}
-
 /* Buttons */
-button {
+.btn {
     width: 100%;
     padding: 12px;
-    margin-top: 12px;
     border: none;
     border-radius: 6px;
     font-size: 15px;
     font-weight: bold;
     cursor: pointer;
+    margin-top: 5px;
 }
 
-/* Location button */
-button[type="button"] {
+.location-btn {
     background-color: #2196f3;
-    color: #ffffff;
+    color: white;
 }
 
-button[type="button"]:hover {
+.location-btn:hover {
     background-color: #1976d2;
 }
 
-/* Submit button */
-button[type="submit"] {
+.submit-btn {
     background-color: #4caf50;
-    color: #ffffff;
+    color: white;
 }
 
-button[type="submit"]:hover {
+.submit-btn:hover {
     background-color: #388e3c;
 }
 
-/* Message text */
+/* Message */
 #message {
     margin-top: 15px;
-    color: #ffffff;
-    font-size: 14px;
     text-align: center;
+    font-size: 14px;
+    color: #333;
 }
 
 /* Responsive */
 @media (max-width: 420px) {
-    form {
+    .container {
         width: 90%;
     }
 }
-

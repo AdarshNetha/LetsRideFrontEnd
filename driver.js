@@ -1,28 +1,42 @@
-document.getElementById("driverForm").addEventListener("submit", function(e) {
-    e.preventDefault();
-    function getLocation() {
+function getLocation() {
+
     if (!navigator.geolocation) {
-        alert("Geolocation is not supported by your browser");
+        alert("Geolocation not supported in this browser");
         return;
     }
 
     navigator.geolocation.getCurrentPosition(
-        function (position) {
-            document.getElementById("latitude").value =
-                position.coords.latitude;
+        function (pos) {
 
-            document.getElementById("longitude").value =
-                position.coords.longitude;
+            const lat = pos.coords.latitude;
+            const lon = pos.coords.longitude;
+
+            document.getElementById("latitude").value = lat;
+            document.getElementById("longitude").value = lon;
+
+            alert("Location captured successfully ✅");
         },
-        function (error) {
-            alert("Location permission denied");
+        function (err) {
+            alert("Please allow location access in browser settings ❌");
+            console.error(err);
         }
     );
 }
 
 
+document.getElementById("driverForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const lat = document.getElementById("latitude").value;
+    const lon = document.getElementById("longitude").value;
+
+    if (!lat || !lon) {
+        alert("Please click 'Get Current Location' before registering 📍");
+        return;
+    }
+
     const driverData = {
-        licenceNo: parseInt(document.getElementById("name").value), // Update if needed
+        licenceNo: 0,
         name: document.getElementById("name").value,
         age: parseInt(document.getElementById("age").value),
         gender: document.getElementById("gender").value,
@@ -34,27 +48,34 @@ document.getElementById("driverForm").addEventListener("submit", function(e) {
         type: document.getElementById("type").value,
         model: document.getElementById("model").value,
         capacity: document.getElementById("capacity").value,
-        longitude: parseFloat(document.getElementById("longitude").value),
-        lattitude: parseFloat(document.getElementById("latitude").value),
+        lattitude: parseFloat(lat),
+        longitude: parseFloat(lon),
         priceperKM: parseFloat(document.getElementById("priceperKM").value),
         averagespeed: parseInt(document.getElementById("averagespeed").value),
         password: document.getElementById("password").value
     };
 
-    fetch("http://localhost:8080/driver/register", {
+    fetch("http://localhost:8085/auth/register/driver", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(driverData)
     })
-    .then(res => res.json())
-    .then(data => {
-        alert("Driver Registered Successfully ✅");
-        console.log(data);
-    })
-    .catch(err => {
-        alert("Registration Failed ❌");
-        console.error(err);
-    });
+        .then(data => {
+
+    alert("Driver Registered Successfully ✅");
+
+    console.log("Registered Driver:", data);
+
+    // store driver id (or mobile) for future use
+    localStorage.setItem("driverId", data.id || data.driverId || data.licenceNo);
+    localStorage.setItem("driverName", data.name);
+
+    // redirect to dashboard
+    window.location.href = "login.html";
+})
+
+        .catch(err => {
+            alert("Registration Failed ❌ Check console");
+            console.error(err);
+        });
 });

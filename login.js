@@ -1,37 +1,64 @@
-function login(event) {
-    event.preventDefault();
+const API_URL = "http://localhost:8085/auth/login";
 
-    const mobile = document.getElementById("mobile").value;
+const form = document.getElementById("loginForm");
+const msg = document.getElementById("msg");
+
+form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const mobileNo = document.getElementById("mobileNo").value;
     const password = document.getElementById("password").value;
-    const msg = document.getElementById("msg");
 
-    fetch("http://localhost:8080/api/auth/login", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            mobile: mobile,
-            password: password
-        })
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error("Invalid credentials");
+    msg.innerText = "Logging in...";
+    msg.style.color = "black";
+
+    try {
+        const res = await fetch(API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                mobileNo: Number(mobileNo),
+                password: password
+            })
+        });
+
+        if (!res.ok) {
+            msg.innerText = "Invalid mobile number or password ❌";
+            msg.style.color = "red";
+            return;
         }
-        return response.json();
-    })
-    .then(data => {
-        msg.style.color = "green";
-        msg.innerText = "Login successful 🚀";
 
-        // redirect
+        const data = await res.json();
+        console.log("LOGIN RESPONSE:", data);
+
+        // Extract token and role from response
+        const token = data.data?.token || null;
+        const roleRaw = data.data?.role || "CUSTOMER";
+         // default to CUSTOMER
+        const role = roleRaw.toUpperCase().trim().replace("ROLE_", "");
+
+        // Save in localStorage
+        localStorage.setItem("mobileNo", mobileNo);
+        localStorage.setItem("role", role);
+        if (token) localStorage.setItem("token", token);
+
+        msg.innerText = "Login successful ✅";
+        msg.style.color = "green";
+
+        // Redirect based on role
         setTimeout(() => {
-            window.location.href = "dashboard.html";
+            if (role === "CUSTOMER") window.location.href = "customerhome.html";
+            else if (role === "DRIVER") window.location.href = "driverdashboard.html";
+            else if (role === "ADMIN") window.location.href = "admin-dashboard.html";
+            else {
+                msg.innerText = "Unknown role returned from server ❌";
+                msg.style.color = "red";
+            }
         }, 1000);
-    })
-    .catch(error => {
+
+    } catch (err) {
+        console.error(err);
+        msg.innerText = "Server not reachable ❌";
         msg.style.color = "red";
-        msg.innerText = "Invalid mobile or password ❌";
-    });
-}
+    }
+});

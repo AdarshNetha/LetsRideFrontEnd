@@ -41,11 +41,21 @@ document.getElementById("customerForm").addEventListener("submit", function (eve
         },
         body: JSON.stringify(customerData)
     })
-    .then(response => response.text())
-    .then(data => {
-        document.getElementById("message").innerText = data;
-        document.getElementById("customerForm").reset();
-    })
+   .then(response => response.json())
+.then(data => {
+
+    console.log("Customer Registered:", data);
+
+    alert("Registration Successful ✅");
+
+    // save customer identity for session
+    localStorage.setItem("customerId", data.id || data.customerId || data.mobileno);
+    localStorage.setItem("customerName", data.name);
+
+    // redirect to dashboard
+    window.location.href = "login.html";
+})
+
     .catch(error => {
         console.error(error);
         document.getElementById("message").innerText = "Registration failed";

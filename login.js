@@ -32,24 +32,21 @@ form.addEventListener("submit", async (e) => {
         console.log("LOGIN RESPONSE:", data);
 
         // Extract token and role from response
-        const token = data.data?.token || null;
-        const roleRaw = data.data?.role || "CUSTOMER";
-         // default to CUSTOMER
-        const role = roleRaw.toUpperCase().trim().replace("ROLE_", "");
+        const token = data.barrierToken;
+        const roleRaw = data.role ;
 
         // Save in localStorage
         localStorage.setItem("mobileNo", mobileNo);
-        localStorage.setItem("role", role);
-        if (token) localStorage.setItem("token", token);
+        localStorage.setItem("role", roleRaw);
+        localStorage.setItem("token", token);
 
         msg.innerText = "Login successful ✅";
         msg.style.color = "green";
 
         // Redirect based on role
         setTimeout(() => {
-            if (role === "CUSTOMER") window.location.href = "customerhome.html";
-            else if (role === "DRIVER") window.location.href = "driverdashboard.html";
-            else if (role === "ADMIN") window.location.href = "admin-dashboard.html";
+            if (roleRaw === "CUSTOMER") window.location.href = "customer-dashboard.html";
+            else if (roleRaw === "DRIVER") window.location.href = "driverdashboard.html";
             else {
                 msg.innerText = "Unknown role returned from server ❌";
                 msg.style.color = "red";

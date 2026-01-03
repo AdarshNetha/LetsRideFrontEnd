@@ -1,44 +1,40 @@
-// Get latitude & longitude from browser
+// Get current location
 function getLocation() {
     if (!navigator.geolocation) {
-        alert("Geolocation is not supported by your browser");
+        alert("Geolocation not supported");
         return;
     }
 
     navigator.geolocation.getCurrentPosition(
-        function (position) {
+        position => {
             document.getElementById("latitude").value =
-                position.coords.latitude;
+                position.coords.latitude.toFixed(6);
 
             document.getElementById("longitude").value =
-                position.coords.longitude;
+                position.coords.longitude.toFixed(6);
         },
-        function (error) {
-            alert("Location permission denied");
-        }
+        () => alert("Location permission denied")
     );
 }
 
-// Submit form data to Spring Boot API
-document.getElementById("customerForm").addEventListener("submit", function (event) {
-    event.preventDefault();
+// Submit customer data
+document.getElementById("customerForm").addEventListener("submit", function (e) {
+    e.preventDefault();
 
     const customerData = {
-        name: document.getElementById("name").value,
-        age: Number(document.getElementById("age").value),
-        gender: document.getElementById("gender").value,
-        mobileno: Number(document.getElementById("mobileno").value),
-        email: document.getElementById("email").value,
-        latitude: Number(document.getElementById("latitude").value),
-        longitude: Number(document.getElementById("longitude").value),
-        password: document.getElementById("password").value
+        name: name.value,
+        age: Number(age.value),
+        gender: gender.value,
+        mobileno: Number(mobileno.value),
+        email: email.value,
+        latitude: Number(latitude.value),
+        longitude: Number(longitude.value),
+        password: password.value
     };
 
     fetch("http://localhost:8085/auth/register/customer", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(customerData)
     })
    .then(response => response.json())

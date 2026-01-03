@@ -1,26 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Let's Ride - Login</title>
-    <link rel="stylesheet" href="./login.css">
+<meta charset="UTF-8" />
+<title>Login | Let's Ride</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<link rel="stylesheet" href="login.css" />
+
 </head>
+
 <body>
 
-    <div class="login-container">
-        <div class="login-card">
-            <h1>Let's Ride 🚕</h1>
-            <p>Your journey starts here</p>
+<div class="overlay">
+  <div class="login-card">
+    
+    <h1>Let's Ride 🚗</h1>
+    <p>Login to continue</p>
 
-            <form onsubmit="login(event)">
-                <input type="tel" id="mobile" placeholder="Mobile Number" required>
-                <input type="password" id="password" placeholder="Password" required>
+    <form id="loginForm">
 
-                <button type="submit">Login</button>
-            </form>
-        </div>
-    </div>
+      <div class="input-group">
+        <label>Mobile Number</label>
+        <input type="number" id="mobileNo" placeholder="Enter mobile number" required />
+      </div>
 
-    <script src="./login.js"></script>
+      <div class="input-group password-group">
+        <label>Password</label>
+        <input type="password" id="password" placeholder="Enter password" required />
+      </div>
+
+      <a href="#" class="forgot">Forgot Password?</a>
+
+      <button type="submit" class="login-btn">Login</button>
+
+      <p id="msg" class="msg"></p>
+
+    </form>
+
+  </div>
+</div>
+
+<script src="login.js"></script>
+
 </body>
 </html>

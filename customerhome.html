@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Book a Ride | Let's Ride</title>
+
+<link rel="stylesheet" href="./customerhome.css">
+
+<!-- Google Maps Places API -->
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=initAutocomplete" async defer></script>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+</head>
+
+<body>
+
+<header class="topbar">
+    <div class="logo">
+        <span class="icon">🚗</span>
+        <h2>Let's Ride</h2>
+    </div>
+
+    <button class="menu-btn">☰</button>
+</header>
+
+<section class="ride-box">
+
+    <div class="ride-header">
+        <h1>Book a Ride</h1>
+        <p>Find available drivers near you</p>
+
+        <button class="logout-btn">↪ Logout</button>
+    </div>
+
+    <div class="card">
+
+        <h3>Where to?</h3>
+        <p class="subtitle">Enter your pickup and drop-off locations</p>
+
+        <label>Pickup Location</label>
+        <div class="input-wrap">
+            <input id="pickupInput" type="text" placeholder="Enter pickup location">
+            <button id="detectLocationBtn">📍</button>
+        </div>
+
+        <label>Drop-off Location</label>
+        <div class="input-wrap">
+            <input id="dropInput" type="text" placeholder="Enter drop-off location">
+        </div>
+
+        <button id="findBtn" class="primary-btn">Find Drivers</button>
+    </div>
+
+</section>
+<div id="map" style="height: 350px; margin-top: 10px;"></div>
+
+
+<div id="map"></div>
+
+<script src="./customerhome.js"></script>
+</body>
+</html>

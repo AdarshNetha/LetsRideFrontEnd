@@ -37,13 +37,23 @@ document.getElementById("customerForm").addEventListener("submit", function (e) 
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(customerData)
     })
-    .then(res => res.text())
-    .then(msg => {
-        document.getElementById("message").innerText = msg;
-        document.getElementById("customerForm").reset();
-        window.location.href = "login.html";
-    })
-    .catch(() => {
+   .then(response => response.json())
+.then(data => {
+
+    console.log("Customer Registered:", data);
+
+    alert("Registration Successful ✅");
+
+    // save customer identity for session
+    localStorage.setItem("customerId", data.id || data.customerId || data.mobileno);
+    localStorage.setItem("customerName", data.name);
+
+    // redirect to dashboard
+    window.location.href = "login.html";
+})
+
+    .catch(error => {
+        console.error(error);
         document.getElementById("message").innerText = "Registration failed";
     });
 });

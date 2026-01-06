@@ -40,11 +40,33 @@ async function fetchCustomerDetails() {
 
         console.log("Customer Data:", customer);
 
-        // Example usage
-        // document.getElementById("customerName").innerText = customer.name;
+
+document.getElementById("customerName").innerText = customer.name;
+
+if (customer.activeBookingFlag === true) {
+    window.location.href = "active-booking.html";
+}
+
 
     } catch (error) {
         console.error("Error:", error);
     }
 }
+document.getElementById("findDriverBtn").addEventListener("click", () => {
+    const destinationInput = document.getElementById("destination");
+    const destination = destinationInput.value.trim();
+
+    // ❌ Block if empty
+    if (!destination) {
+        alert("Please enter destination city");
+        destinationInput.focus();
+        return;
+    }
+
+    // ✅ Save ONLY when finding driver
+    localStorage.setItem("destinationCity", destination);
+
+    // ✅ Redirect
+    window.location.href = "find-driver.html";
+});
 

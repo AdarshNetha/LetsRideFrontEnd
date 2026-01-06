@@ -1,5 +1,8 @@
 /* AUTH GUARD */
 const role = localStorage.getItem("role");
+const mobileNo = localStorage.getItem("mobileNo");
+console.log(mobileNo);
+
 if (!role || !role.includes("DRIVER")) {
     alert("Unauthorized ❌");
     window.location.href = "login.html";
@@ -24,9 +27,15 @@ document.getElementById("updateLocationBtn").addEventListener("click", () => {
 
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
+        const token = localStorage.getItem("token");
 
         fetch(`http://localhost:8085/driver/location?latitude=${latitude}&longitude=${longitude}&mobileNo=${mobileNo}`, {
-            method: "PUT"
+            method: "PUT",
+            headers: {
+        "Authorization": `${token}`,
+        "Content-Type": "application/json"
+    }
+    
         })
         .then(res => res.json())
         .then(data => {

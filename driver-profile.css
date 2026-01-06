@@ -1,0 +1,83 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #0a0a0a;
+    color: #fff;
+}
+
+/* PAGE */
+.page {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* HEADER */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+}
+
+.page-header h2 {
+    margin: 0;
+    font-size: 26px;
+}
+
+.back-btn {
+    padding: 10px 16px;
+    background: transparent;
+    border: 1px solid cyan;
+    color: cyan;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.back-btn:hover {
+    background: cyan;
+    color: #000;
+}
+
+/* PROFILE CARD */
+.profile-card {
+    background: rgba(0,255,255,0.06);
+    border: 1px solid rgba(0,255,255,0.4);
+    border-radius: 18px;
+    padding: 22px;
+    box-shadow: 0 0 25px rgba(0,255,255,0.3);
+}
+
+/* ROW */
+.profile-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.profile-row:last-child {
+    border-bottom: none;
+}
+
+.profile-row span {
+    opacity: 0.7;
+}
+
+.profile-row p {
+    margin: 0;
+    font-weight: 600;
+}
+
+/* STATUS */
+.status.active {
+    color: #3cff9a;
+}
+
+.status.inactive {
+    color: #ff6b6b;
+}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Verify OTP | Start Ride</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="verify-otp.css">
+</head>
+<body>
+
+<div class="page">
+
+    <div class="otp-card">
+
+        <h2>🔐 Verify OTP</h2>
+        <p class="subtitle">
+            Ask the customer for OTP to start the ride
+        </p>
+        
+        <div class="input-group">
+            <input type="number" id="bookingId" placeholder="Booking ID">
+            <input type="number" id="otp" placeholder="Enter OTP">
+        </div>
+        
+        <button onclick="verifyOtp()">Start Ride</button>
+
+        <p id="statusMsg"></p>
+
+    </div>
+    
+</div>
+
+<script src="verify-otp.js"></script>
+</body>
+</html>

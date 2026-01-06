@@ -1,41 +1,111 @@
-/* MAIN DRIVER LAYOUT */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0a0a0a;
+    color: #fff;
+    height: 100vh;
+}
+
+/* MAIN GRID LAYOUT */
 .driver-main {
-  padding: 20px;
-  display: grid;
-  gap: 22px;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    grid-template-rows: auto 1fr;
+    gap: 20px;
+    padding: 20px;
 }
 
-/* LOCATION CARD (CENTER FOCUS) */
+/* CENTER LOCATION CARD */
 .location-card {
-  text-align: center;
-  padding: 22px;
-  background: rgba(0,255,255,0.08);
-  border: 1px solid cyan;
-  box-shadow: 0 0 25px cyan;
-}
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
 
-.location-card h2 {
-  font-size: 22px;
-  margin-bottom: 6px;
+    align-self: center;
+    justify-self: center;
+
+    width: 80%;
+    max-width: 500px;
+
+    text-align: center;
+    padding: 28px;
+    background: rgba(0,255,255,0.08);
+    border: 1px solid cyan;
+    box-shadow: 0 0 25px cyan;
+    border-radius: 14px;
 }
 
 .location-card button {
-  margin-top: 14px;
-  padding: 14px 20px;
-  font-size: 16px;
+    margin-top: 16px;
+    padding: 14px 22px;
+    font-size: 16px;
+    cursor: pointer;
 }
 
-/* STATUS CARD */
+/* RIGHT TOP STATUS */
 .status-card {
-  text-align: center;
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #333;
+    border-radius: 12px;
 }
 
-/* BOOKING HISTORY */
+/* RIGHT BELOW STATUS */
 .history-card {
-  text-align: center;
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #333;
+    border-radius: 12px;
 }
 
+/* TOGGLE SWITCH */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background: #555;
+    border-radius: 34px;
+}
+
+.slider:before {
+    content: "";
+    position: absolute;
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background: white;
+    border-radius: 50%;
+    transition: 0.4s;
+}
+
+input:checked + .slider {
+    background: cyan;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+/* STATUS TEXT */
 .status-text {
-  margin-top: 10px;
-  opacity: 0.85;
+    margin-top: 10px;
+    opacity: 0.85;
 }

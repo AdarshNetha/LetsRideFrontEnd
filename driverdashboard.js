@@ -5,45 +5,42 @@ if (!role || !role.includes("DRIVER")) {
     window.location.href = "login.html";
 }
 
-/* DRIVER NAME */
-document.getElementById("driverName").innerText =
-    "Welcome, Driver 👋";
-
-/* ONLINE / OFFLINE */
-const toggle = document.getElementById("onlineToggle");
-
-toggle.addEventListener("change", () => {
-    if (toggle.checked) {
-        showToast("🟢 You are Active");
-        // TODO: API → /driver/online
-    } else {
-        showToast("🔴 You are Inactive");
-        // TODO: API → /driver/offline
-    }
-});
-
 /* UPDATE LOCATION */
-document
-  .getElementById("updateLocationBtn")
-  .addEventListener("click", () => {
+document.getElementById("updateLocationBtn").addEventListener("click", () => {
+
+    const mobileNo = localStorage.getItem("mobileNo");
+
+    if (!mobileNo) {
+        alert("Please login again");
+        return;
+    }
 
     if (!navigator.geolocation) {
         alert("Geolocation not supported");
         return;
     }
 
-    navigator.geolocation.getCurrentPosition(pos => {
-        const lat = pos.coords.latitude;
-        const lng = pos.coords.longitude;
+    navigator.geolocation.getCurrentPosition(position => {
 
-        document.getElementById("locationStatus").innerText =
-            `📍 Updated: ${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
 
-        showToast("📍 Location Updated");
-
-        // TODO: Backend API
-        // fetch("/driver/update-location", { ... })
+        fetch(`http://localhost:8085/driver/location?latitude=${latitude}&longitude=${longitude}&mobileNo=${mobileNo}`, {
+            method: "PUT"
+        })
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("locationStatus").innerText =
+                `📍 Updated: ${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
+            showToast("📍 Location Updated");
+        })
+        .catch(() => alert("Location update failed"));
     });
+});
+
+/* ONLINE / OFFLINE */
+document.getElementById("onlineToggle").addEventListener("change", e => {
+    showToast(e.target.checked ? "🟢 You are Active" : "🔴 You are Inactive");
 });
 
 /* BOOKING HISTORY */
@@ -53,19 +50,19 @@ function goToHistory() {
 
 /* TOAST */
 function showToast(msg) {
-    const t = document.createElement("div");
-    t.innerText = msg;
-    t.style.position = "fixed";
-    t.style.bottom = "90px";
-    t.style.left = "50%";
-    t.style.transform = "translateX(-50%)";
-    t.style.background = "rgba(0,0,0,.9)";
-    t.style.padding = "10px 18px";
-    t.style.borderRadius = "10px";
-    t.style.border = "1px solid cyan";
-    t.style.boxShadow = "0 0 18px cyan";
-    t.style.zIndex = "999";
+    const toast = document.createElement("div");
+    toast.innerText = msg;
+    toast.style.position = "fixed";
+    toast.style.bottom = "80px";
+    toast.style.left = "50%";
+    toast.style.transform = "translateX(-50%)";
+    toast.style.background = "#000";
+    toast.style.border = "1px solid cyan";
+    toast.style.padding = "12px 18px";
+    toast.style.borderRadius = "12px";
+    toast.style.boxShadow = "0 0 18px cyan";
+    toast.style.zIndex = "999";
 
-    document.body.appendChild(t);
-    setTimeout(() => t.remove(), 1800);
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 1800);
 }

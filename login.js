@@ -32,8 +32,11 @@ form.addEventListener("submit", async (e) => {
         console.log("LOGIN RESPONSE:", data);
 
         // Extract token and role from response
-        const token = data.barrierToken;
-        const roleRaw = data.role ;
+        const token = data.data.barrierToken;
+        const roleRaw = data.data.role;
+
+        console.log("ROLE VALUE:", roleRaw);
+console.log("ROLE TYPE:", typeof roleRaw);
 
         // Save in localStorage
         localStorage.setItem("mobileNo", mobileNo);
@@ -46,7 +49,7 @@ form.addEventListener("submit", async (e) => {
         // Redirect based on role
         setTimeout(() => {
             if (roleRaw === "CUSTOMER") window.location.href = "customer-dashboard.html";
-             else if (role.includes("DRIVER")) {
+             else if (roleRaw.includes("DRIVER")) {
                 window.location.href = "./driverdashboard.html";
             } 
             else {

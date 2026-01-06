@@ -46,7 +46,9 @@ form.addEventListener("submit", async (e) => {
         // Redirect based on role
         setTimeout(() => {
             if (roleRaw === "CUSTOMER") window.location.href = "customer-dashboard.html";
-            else if (roleRaw === "DRIVER") window.location.href = "driverdashboard.html";
+             else if (role.includes("DRIVER")) {
+                window.location.href = "./driverdashboard.html";
+            } 
             else {
                 msg.innerText = "Unknown role returned from server ❌";
                 msg.style.color = "red";

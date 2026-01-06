@@ -1,6 +1,7 @@
 const ACTIVE_BOOKING_API = "http://localhost:8085/customer/active-booking";
 const CANCEL_BOOKING_API = "http://localhost:8085/customer/booking";
-
+ const customerID =localStorage.getItem("customerID");
+ console.log(customerID);
 window.addEventListener("DOMContentLoaded", () => {
     fetchActiveBooking();
 });
@@ -32,6 +33,7 @@ async function fetchActiveBooking() {
 
         const response = await res.json();
         renderActiveBooking(response.data);
+        console.log(response);
 
     } catch (error) {
         console.error(error);
@@ -85,7 +87,7 @@ async function cancelBooking(bookingId, customerId) {
         const token = localStorage.getItem("token");
 
         const res = await fetch(
-            `${CANCEL_BOOKING_API}/${bookingId}/cancel?customerId=${customerId}`,
+            `${CANCEL_BOOKING_API}/${bookingId}/cancel?customerId=${customerID}`,
             {
                 method: "PUT",
                 headers: {

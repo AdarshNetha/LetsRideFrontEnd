@@ -39,6 +39,8 @@ async function fetchCustomerDetails() {
         customer = response.data;
 
         console.log("Customer Data:", customer);
+        console.log(customer.id);
+        localStorage.setItem("customerID",customer.id);
 
 
 document.getElementById("customerName").innerText = customer.name;

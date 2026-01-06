@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Customer Dashboard</title>
+
+  <link rel="stylesheet" href="./customerhome.css">
+</head>
+
+<body>
+
+  <!-- TOP BAR -->
+  <header class="top-bar">
+      <h2 id="customerName">Hai, Customer</h2>
+  </header>
+
+  <main class="container">
+
+      <!-- Page Caption -->
+      <h3 class="title">Where do you want to go?</h3>
+
+      <!-- Destination Input -->
+      <input type="text"
+             id="destinationInput"
+             placeholder="Enter destination"
+             class="destination-box">
+
+      <!-- Find Driver Button -->
+      <button id="findDriverBtn" class="find-btn">
+          Find Driver
+      </button>
+
+      <!-- Status / Messages -->
+      <p id="statusMsg" class="status"></p>
+
+  </main>
+
+
+  <!-- 🌟 Bottom Navigation -->
+  <nav class="bottom-nav">
+
+      <button id="profileBtn" class="nav-btn">
+          👤 Profile
+      </button>
+
+      <button id="historyBtn" class="nav-btn">
+          📅 Booking History
+      </button>
+
+      <button id="settingsBtn" class="nav-btn">
+          ⚙️ Settings
+      </button>
+
+  </nav>
+
+
+  <script src="./customerhome.js"></script>
+
+</body>
+</html>

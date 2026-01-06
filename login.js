@@ -42,6 +42,7 @@ console.log("ROLE TYPE:", typeof roleRaw);
         localStorage.setItem("mobileNo", mobileNo);
         localStorage.setItem("role", roleRaw);
         localStorage.setItem("token", token);
+        localStorage.setItem("destinationCity", null);
 
         msg.innerText = "Login successful ✅";
         msg.style.color = "green";

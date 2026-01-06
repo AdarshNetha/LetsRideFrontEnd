@@ -1,83 +1,164 @@
-body {
+/* RESET */
+* {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: #0b0f1a;
-    color: white;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", Arial, sans-serif;
 }
 
-.app {
-    padding: 20px;
-}
-
-.top-bar {
+/* BODY */
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f172a, #020617);
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    background: #111827;
-    padding: 15px 20px;
-    border-radius: 12px;
+    padding: 15px;
+    color: #e5e7eb;
 }
 
-.logo {
-    font-size: 18px;
-    font-weight: bold;
-}
-
-.logout {
-    background: transparent;
-    color: white;
-    border: 1px solid #555;
-    padding: 6px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-.content {
-    margin-top: 30px;
-}
-
-.content h1 {
-    margin-bottom: 5px;
-}
-
-.sub {
-    color: #9ca3af;
-}
-
-.card {
-    background: #111827;
-    padding: 20px;
-    border-radius: 15px;
-    margin-top: 20px;
-}
-
-.card h2 {
-    margin-bottom: 5px;
-}
-
-.card p {
-    color: #9ca3af;
-    font-size: 14px;
-}
-
-input {
+/* MAIN CONTAINER */
+.container {
     width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    background: #1f2933;
-    border: none;
-    border-radius: 10px;
-    color: white;
+    max-width: 420px;
+    background: #020617;
+    border-radius: 18px;
+    padding: 26px 22px;
+    box-shadow: 0 0 25px rgba(59, 130, 246, 0.25);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    text-align: center;
 }
 
-.find-btn {
+/* HEADING */
+.container h2 {
+    font-size: 22px;
+    margin-bottom: 22px;
+    color: #e0f2fe;
+}
+
+/* INPUT ROW */
+.input-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 22px;
+}
+
+/* INPUT */
+.input-row input {
+    flex: 1;
+    padding: 12px 14px;
+    font-size: 15px;
+    border-radius: 10px;
+    border: 1px solid #334155;
+    background: #020617;
+    color: #f8fafc;
+    outline: none;
+}
+
+.input-row input::placeholder {
+    color: #94a3b8;
+}
+
+.input-row input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 6px rgba(59, 130, 246, 0.6);
+}
+
+/* SMALL BUTTON */
+.btn-small {
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: none;
+    background: #2563eb;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.btn-small:hover {
+    background: #1d4ed8;
+}
+
+/* ANCHOR RESET */
+a {
+    text-decoration: none;
+    display: block;
+}
+
+/* PRIMARY BUTTON */
+.btn-primary {
     width: 100%;
     padding: 14px;
-    margin-top: 10px;
+    margin-bottom: 14px;
+    border-radius: 14px;
     border: none;
-    border-radius: 12px;
-    font-size: 16px;
+    background: linear-gradient(135deg, #2563eb, #3b82f6);
     color: white;
-    background: linear-gradient(90deg, #22d3ee, #8b5cf6);
+    font-size: 16px;
+    font-weight: 600;
     cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(59, 130, 246, 0.5);
+}
+
+/* SECONDARY BUTTON */
+.btn-secondary {
+    width: 100%;
+    padding: 14px;
+    border-radius: 14px;
+    border: 1px solid #3b82f6;
+    background: transparent;
+    color: #3b82f6;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+}
+
+.btn-secondary:hover {
+    background: #3b82f6;
+    color: white;
+}
+
+/* OUTPUT */
+#output {
+    margin-top: 18px;
+    font-size: 13px;
+    color: #94a3b8;
+    text-align: left;
+    word-wrap: break-word;
+}
+.greeting {
+    text-align: left;
+    font-size: 15px;
+    color: #93c5fd;
+    margin-bottom: 6px;
+}
+
+#customerName {
+    font-weight: 600;
+    color: #e0f2fe;
+}
+
+
+/* MOBILE OPTIMIZATION */
+@media (max-width: 480px) {
+    .container {
+        padding: 22px 18px;
+    }
+
+    .container h2 {
+        font-size: 20px;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        font-size: 15px;
+        padding: 13px;
+    }
 }

@@ -2,11 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Customer Dashboard | Let's Ride</title>
-    <link rel="stylesheet" href="./customer-dashboard.css">
+    <title>Customer Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="customer-dashboard.css">
 </head>
 <body>
 
+<div class="container">
+      <h4 class="greeting">
+        Hi, <span id="customerName">Customer</span> 👋
+    </h4>
+    <h2>Where do you want to go?</h2>
+
+    <div class="input-row">
+        <input type="text" id="destination" placeholder="Enter destination city">
+        <button class="btn-small" id="updateBtn">Update</button>
+    </div>
+
+    <!-- Find Driver Page -->
+    <a href="find-driver.html">
+        <button class="btn-primary" id="findDriverBtn">Find Driver</button>
+    </a>
+
+    <!-- History Page -->
+    <a href="customer-history.html">
+        <button class="btn-secondary">History</button>
+    </a>
+
+    <pre id="output"></pre>
+</div>
 
 <script src="customer-dashboard.js"></script>
 </body>

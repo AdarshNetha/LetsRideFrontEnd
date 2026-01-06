@@ -1,0 +1,41 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #0f172a;
+    color: #e5e7eb;
+    padding: 16px;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 16px;
+    color: #93c5fd;
+}
+
+.card {
+    background: #020617;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 12px;
+}
+
+.card p {
+    margin: 6px 0;
+    font-size: 14px;
+}
+
+.total {
+    margin-top: 18px;
+    padding: 14px;
+    background: #020617;
+    border: 1px solid #3b82f6;
+    border-radius: 12px;
+    font-weight: bold;
+    text-align: center;
+    color: #60a5fa;
+}

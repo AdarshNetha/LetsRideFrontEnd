@@ -51,7 +51,7 @@ function renderCards(data) {
     container.innerHTML = "";
 
     const {
-        c,
+        cid,
         sourceLocation,
         destinationLocation,
         distance,
@@ -61,7 +61,7 @@ console.log(c);
     /* ---------- RIDE INFO UI ---------- */
     rideInfo.innerHTML = `
         <h2>Ride Details</h2>
-        <p><strong>Customer ID:</strong> ${c.id}</p>
+        <p><strong>Customer ID:</strong> ${cid}</p>
         <p><strong>From:</strong> ${sourceLocation}</p>
         <p><strong>To:</strong> ${destinationLocation}</p>
         <p><strong>Distance:</strong> ${distance} km</p>

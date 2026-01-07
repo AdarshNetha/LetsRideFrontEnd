@@ -7,7 +7,7 @@ function goBack() {
 fetch(`http://localhost:8085/driver/booking-history?mobileno=${mobileNo}`)
     .then(res => res.json())
     .then(result => {
-
+            
         const tbody = document.getElementById("historyBody");
         const totalFareEl = document.getElementById("totalFare");
 
@@ -39,3 +39,4 @@ fetch(`http://localhost:8085/driver/booking-history?mobileno=${mobileNo}`)
         console.error(err);
         alert("Failed to load booking history");
     });
+    

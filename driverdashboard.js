@@ -1,3 +1,39 @@
+/* CHECK VEHICLE AVAILABILITY ON PAGE LOAD */
+window.addEventListener("load", () => {
+
+    const mobileNo = localStorage.getItem("mobileNo");
+    const token = localStorage.getItem("token");
+
+    if (!mobileNo) {
+        alert("Please login again");
+        window.location.href = "login.html";
+        return;
+    }
+    
+    fetch(`http://localhost:8085/driver/${mobileNo}`, {
+        method: "GET",
+        headers: {
+            "Authorization": `${token}`,
+            "Content-Type": "application/json"
+        }
+    })
+    .then(res => res.json())
+    .then(response => {
+
+        const vehicleStatus =
+            response?.data?.vehicle?.availabilityStatus;
+
+        console.log("Vehicle Status:", vehicleStatus);
+        localStorage.setItem("driverID",response.data.id);
+        if (vehicleStatus && vehicleStatus !== "AVAILABLE") {
+            window.location.href = "driver-active-booking.html";
+        }
+
+    })
+    .catch(err => {
+        console.error("Failed to fetch driver details", err);
+    });
+});
 /* AUTH GUARD */
 const role = localStorage.getItem("role");
 const mobileNo = localStorage.getItem("mobileNo");

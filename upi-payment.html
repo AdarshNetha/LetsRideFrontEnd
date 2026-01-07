@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UPI Payment</title>
+    <link rel="stylesheet" href="upi-payment.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>UPI Payment</h2>
+
+    <label>Booking ID</label>
+    <input type="number" id="bookingId" placeholder="Enter Booking ID">
+
+    <button onclick="generateQR()">Generate QR</button>
+
+    <div class="qr-section hidden" id="qrSection">
+        <h3>Scan & Pay</h3>
+        <img id="qrImage" alt="UPI QR Code">
+    </div>
+
+    <p id="msg"></p>
+</div>
+
+<script src="upi-payment.js"></script>
+</body>
+</html>

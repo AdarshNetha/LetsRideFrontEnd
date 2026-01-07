@@ -4,6 +4,7 @@ function verifyOtp() {
     const otp = document.getElementById("otp").value;
     const statusMsg = document.getElementById("statusMsg");
 
+ 
     if (!bookingId || !otp) {
         statusMsg.innerText = "Please enter Booking ID and OTP";
         statusMsg.className = "error";
@@ -12,6 +13,7 @@ function verifyOtp() {
 
     fetch(`http://localhost:8085/driver/booking/${bookingId}/verify-otp?otp=${otp}`, {
         method: "POST"
+        
     })
     .then(res => {
         if (!res.ok) throw new Error("Invalid OTP");
@@ -30,4 +32,5 @@ function verifyOtp() {
         statusMsg.innerText = "❌ Invalid OTP. Try again.";
         statusMsg.className = "error";
     });
+    
 }

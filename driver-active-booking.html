@@ -15,10 +15,21 @@
         <p><strong>Mobile No:</strong> <span id="custMobile"></span></p>
         <p><strong>Pickup Location:</strong> <span id="pickup"></span></p>
         <p><strong>Booking Status:</strong> <span id="status"></span></p>
-    </div>
 
+    <!-- ACTIONS (shown only when status = BOOKED) -->
+        <div id="actionBox" class="hidden">
+            <input type="number" id="otpInput" placeholder="Enter OTP" />
+            <div class="btn-group">
+                 <button id="pickupBtn">Pick Up</button>
+                <button id="cancelBtn">Cancel</button>
+            </div>
+        </div>
+
+    </div>
+    
     <p id="msg"></p>
 </div>
+
 
 <script src="driver-active-booking.js"></script>
 </body>

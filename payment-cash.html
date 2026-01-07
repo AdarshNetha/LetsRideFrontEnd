@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cash Payment</title>
+    <link rel="stylesheet" href="payment-cash.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Confirm Cash Payment</h2>
+
+    <label>Booking ID</label>
+    <input type="number" id="bookingId" placeholder="Enter Booking ID">
+
+    <label>Payment Type</label>
+    <input type="text" id="paymentType" value="CASH" readonly>
+
+    <button onclick="confirmCashPayment()">Confirm Payment</button>
+
+    <p id="msg"></p>
+</div>
+
+<script src="payment-cash.js"></script>
+</body>
+</html>

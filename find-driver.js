@@ -57,7 +57,7 @@ function renderCards(data) {
         distance,
         availablevehicles
     } = data;
-console.log(c);
+
     /* ---------- RIDE INFO UI ---------- */
     rideInfo.innerHTML = `
         <h2>Ride Details</h2>

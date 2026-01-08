@@ -72,3 +72,12 @@ button {
     color: white;
 }
 
+#cashBtn {
+    background-color: #ffc107;
+    color: black;
+}
+
+#upiBtn {
+    background-color: #007bff;
+    color: white;
+}

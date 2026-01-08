@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", () => {
 
     const mobileNo = localStorage.getItem("mobileNo");
@@ -40,11 +41,71 @@ document.addEventListener("DOMContentLoaded", () => {
     msg.innerText = "";
 
     const actionBox = document.getElementById("actionBox");
-
+    const paymentBox = document.getElementById("paymentBox");
     // Show buttons only if status is BOOKED
     if (data.bookingstatus === "BOOKED") {
         actionBox.classList.remove("hidden");
     }
+     
+    // If ON_GOING → show payment buttons
+    if (data.bookingstatus === "on Going") {
+       paymentBox.classList.remove("hidden");
+    }
+
+    /* ================= PAYMENT ================= */
+    
+
+const bookingId = localStorage.getItem("bookingId");
+const token = localStorage.getItem("token");
+const paymentType =localStorage.getItem("paymentType")
+    document.getElementById("cashBtn").onclick = () => {
+
+    fetch(`http://localhost:8085/driver/payment/cash?bookingId=${bookingId}&paymentType=CASH`, {
+        method: "POST",
+        headers: {
+            "Authorization": `${token}`
+        }
+    })
+    .then(res => {
+        if (!res.ok) {
+            throw new Error("Cash payment failed");
+        }
+        return res.json();
+    })
+    .then(() => {
+        alert("Cash payment completed & ride finished ✅");
+        window.location.href = "driverdashboard.html";
+    })
+    .catch(err => {
+        console.error(err);
+        alert("Cash payment failed ❌");
+    });
+};
+
+     document.getElementById("upiBtn").onclick = () => {
+
+    fetch(`http://localhost:8085/driver/payment/upi?bookingId=${bookingId}`, {
+        method: "POST",
+        headers: {
+            "Authorization": `${token}`
+        }
+    })
+    .then(res => {
+        if (!res.ok) {
+            throw new Error("UPI payment failed");
+        }
+        return res.json();
+    })
+    .then(() => {
+        alert("UPI payment initiated ✅");
+        window.location.href = "driverdashboard.html";
+    })
+    .catch(err => {
+        console.error(err);
+        alert("UPI payment failed ❌");
+    });
+};
+
 
     /* ================= PICK UP ================= */
     document.getElementById("pickupBtn").onclick = () => {
@@ -94,6 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
             alert("Cancellation failed");
         });
     };
+        
 })
 
     .catch(err => {

@@ -17,9 +17,7 @@ async function fetchActiveBooking() {
             return;
         }
 
-        const res = await fetch(
-            `${ACTIVE_BOOKING_API}/${mobileNo}`,
-            {
+        const res = await fetch(`${ACTIVE_BOOKING_API}/${mobileNo}`,{
                 method: "GET",
                 headers: {
                     "Authorization": token
@@ -38,7 +36,7 @@ async function fetchActiveBooking() {
     } catch (error) {
         console.error(error);
         alert("No active booking found");
-        window.location.href = "customer-dashboard.html";
+        // window.location.href = "customer-dashboard.html";
     }
 }
 

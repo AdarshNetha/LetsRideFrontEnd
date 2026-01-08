@@ -128,7 +128,8 @@ async function bookVehicle(vehicleId, source, destination, distance, item) {
             },
             body: JSON.stringify(bookingData)
         });
-
+    
+      
         if (!res.ok) {
             throw new Error("Booking failed");
         }

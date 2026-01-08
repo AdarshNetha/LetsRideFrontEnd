@@ -1,89 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Driver Dashboard | Let's Ride</title>
-<link rel="stylesheet" href="./driverdashboard.css">
-<script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script defer src="driverdashboard.js"></script>
+    <meta charset="UTF-8">
+    <title>Driver Dashboard | Let's Ride</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="driverdashboard.css">
 </head>
 <body>
 
-<!-- HEADER -->
-<header class="header">
-    <h1>Let's Ride 🚖</h1>
+<main class="driver-main">
 
-    <!-- DRIVER NAME -->
-    <h3 id="driverName">Welcome, Driver</h3>
-
-    <div class="status-toggle">
-        <span>Offline</span>
-        <label class="switch">
-            <input type="checkbox" id="onlineToggle">
-            <span class="slider glowing"></span>
-        </label>
-        <span>Online</span>
-    </div>
-</header>
-
-<!-- MAIN CONTENT -->
-<main>
-
-    <!-- Earnings Card -->
-    <section class="earnings-card">
-        <h2>Today's Earnings</h2>
-        <p class="amount">$120</p>
-        <p class="summary">Weekly Summary: $750</p>
+    <!-- LOCATION UPDATE -->
+    <section class="location-card">
+        <h2>📍 Update Location</h2>
+        <p>Keep your location updated to receive rides</p>
+        <button id="updateLocationBtn">Update Current Location</button>
+        <p id="locationStatus" class="status-text"></p>
     </section>
 
-    <!-- Weekly Earnings Chart
-    <section class="chart-card">
-        <h2>Weekly Earnings</h2>
-        <canvas id="weeklyChart"></canvas>
-    </section> -->
-
-    <!-- 🔥 LIVE BOOKING REQUESTS -->
-    <section class="rides-card">
-        <h2>Incoming Ride Requests 🚕</h2>
-
-        <ul id="bookingRequests" class="rides-list">
-            <!-- Requests will load here dynamically -->
-        </ul>
+    <!-- ONLINE / OFFLINE -->
+    <section class="status-card">
+        <h2>Driver Status</h2>
+        <div class="status-toggle">
+            <span>Inactive</span>
+            <label class="switch">
+                <input type="checkbox" id="onlineToggle">
+                <span class="slider glowing"></span>
+            </label>
+            <span>Active</span>
+        </div>
     </section>
 
-    <!-- Recent Rides -->
-    <section class="rides-card">
-        <h2>Recent Rides</h2>
-        <ul class="rides-list">
-            <li>
-                <strong>Pickup:</strong> Downtown <br>
-                <strong>Dropoff:</strong> Airport <br>
-                <strong>Fare:</strong> $25
-            </li>
-            <li>
-                <strong>Pickup:</strong> Mall <br>
-                <strong>Dropoff:</strong> Central Park <br>
-                <strong>Fare:</strong> $18
-            </li>
-            <li>
-                <strong>Pickup:</strong> Station <br>
-                <strong>Dropoff:</strong> University <br>
-                <strong>Fare:</strong> $30
-            </li>
-        </ul>
+    <!-- BOOKING HISTORY -->
+    <section class="history-card">
+        <h2>📜 Booking History</h2>
+        <button onclick="goToHistory()">View Booking History</button>
     </section>
 
- 
 </main>
 
-<!-- BOTTOM NAVIGATION -->
-<nav class="bottom-nav">
-    <button>🏠 Home</button>
-    <button>📅 Rides</button>
-    <button>💰 Earnings</button>
-    <button>👤 Profile</button>
-</nav>
-
+<script src="driverdashboard.js"></script>
 </body>
 </html>

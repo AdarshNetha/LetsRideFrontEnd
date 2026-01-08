@@ -1,111 +1,113 @@
-/* Load Driver Data from LocalStorage */
-const driver = JSON.parse(localStorage.getItem("driverData"));
+/* CHECK VEHICLE AVAILABILITY ON PAGE LOAD */
+window.addEventListener("load", () => {
 
-if (driver) {
-    document.getElementById("driverName").innerText =
-        "Welcome, " + driver.name + " 👋";
-}
+    const mobileNo = localStorage.getItem("mobileNo");
+    const token = localStorage.getItem("token");
 
-/* Online / Offline Status */
-const toggle = document.getElementById("onlineToggle");
-
-toggle.addEventListener("change", () => {
-    if (toggle.checked) {
-        console.log("Driver ONLINE");
-        showToast("🟢 You are now Online");
-    } else {
-        console.log("Driver OFFLINE");
-        showToast("🔴 You are now Offline");
+    if (!mobileNo) {
+        alert("Please login again");
+        window.location.href = "login.html";
+        return;
     }
-});
+    
+    fetch(`http://localhost:8085/driver/${mobileNo}`, {
+        method: "GET",
+        headers: {
+            "Authorization": `${token}`,
+            "Content-Type": "application/json"
+        }
+    })
+    .then(res => res.json())
+    .then(response => {
 
-/* Toast Notification */
-function showToast(msg) {
-    const t = document.createElement("div");
-    t.innerText = msg;
-    t.style.position = "fixed";
-    t.style.bottom = "90px";
-    t.style.left = "50%";
-    t.style.transform = "translateX(-50%)";
-    t.style.background = "rgba(0,0,0,.85)";
-    t.style.padding = "10px 16px";
-    t.style.borderRadius = "10px";
-    t.style.border = "1px solid cyan";
-    t.style.boxShadow = "0 0 18px cyan";
-    t.style.animation = "fadein .4s";
+        const vehicleStatus =
+            response?.data?.vehicle?.availabilityStatus;
 
-    document.body.appendChild(t);
+        console.log("Vehicle Status:", vehicleStatus);
+        localStorage.setItem("driverID",response.data.id);
+        if (vehicleStatus && vehicleStatus !== "AVAILABLE") {
+            window.location.href = "driver-active-booking.html";
+        }
 
-    setTimeout(() => t.remove(), 1800);
-}
-
-/* Weekly Earnings Chart */
-const ctx = document.getElementById("weeklyChart");
-
-new Chart(ctx, {
-    type: "line",
-    data: {
-        labels: ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],
-        datasets: [{
-            label: "Weekly Earnings",
-            data: [120,180,150,240,210,90,160],
-            borderWidth: 3,
-            borderColor: "#00ffee",
-            fill: false,
-            tension: .4
-        }]
-    },
-    options: {
-        plugins: { legend: { display: false } },
-        scales: { y: { beginAtZero: true } }
-    }
-});
-
-/* -------- Booking Requests ---------- */
-
-const bookingRequests = document.getElementById("bookingRequests");
-
-const sampleRequests = [
-    { id: 201, pickup: "City Mall", drop: "Airport", fare: 240 },
-    { id: 202, pickup: "Tech Park", drop: "Metro Station", fare: 160 }
-];
-
-function loadBookings() {
-    bookingRequests.innerHTML = "";
-
-    sampleRequests.forEach(b => {
-        const li = document.createElement("li");
-
-        li.innerHTML = `
-        <strong>Pickup:</strong> ${b.pickup}<br>
-        <strong>Dropoff:</strong> ${b.drop}<br>
-        <strong>Fare:</strong> ₹${b.fare}<br><br>
-
-        <button onclick="acceptBooking(${b.id})">✅ Accept</button>
-        <button class="reject" onclick="rejectBooking(${b.id})">❌ Reject</button>
-        `;
-
-        bookingRequests.appendChild(li);
+    })
+    .catch(err => {
+        console.error("Failed to fetch driver details", err);
     });
+});
+/* AUTH GUARD */
+const role = localStorage.getItem("role");
+const mobileNo = localStorage.getItem("mobileNo");
+console.log(mobileNo);
+
+if (!role || !role.includes("DRIVER")) {
+    alert("Unauthorized ❌");
+    window.location.href = "login.html";
 }
 
-loadBookings();
+/* UPDATE LOCATION */
+document.getElementById("updateLocationBtn").addEventListener("click", () => {
 
-/* Accept Booking */
-function acceptBooking(id) {
-    showToast("✔ Booking Accepted");
+    const mobileNo = localStorage.getItem("mobileNo");
 
-    console.log("Accepted Booking ID:", id);
+    if (!mobileNo) {
+        alert("Please login again");
+        return;
+    }
 
-    // TODO: Replace with backend API
-    // fetch(`/booking/accept/${id}`, { method: "POST" })
+    if (!navigator.geolocation) {
+        alert("Geolocation not supported");
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(position => {
+
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        const token = localStorage.getItem("token");
+
+        fetch(`http://localhost:8085/driver/location?latitude=${latitude}&longitude=${longitude}&mobileNo=${mobileNo}`, {
+            method: "PUT",
+            headers: {
+        "Authorization": `${token}`,
+        "Content-Type": "application/json"
+    }
+    
+        })
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("locationStatus").innerText =
+                `📍 Updated: ${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
+            showToast("📍 Location Updated");
+        })
+        .catch(() => alert("Location update failed"));
+    });
+});
+
+/* ONLINE / OFFLINE */
+document.getElementById("onlineToggle").addEventListener("change", e => {
+    showToast(e.target.checked ? "🟢 You are Active" : "🔴 You are Inactive");
+});
+
+/* BOOKING HISTORY */
+function goToHistory() {
+    window.location.href = "driver-booking-history.html";
 }
 
-/* Reject Booking */
-function rejectBooking(id) {
-    showToast("❌ Booking Rejected");
+/* TOAST */
+function showToast(msg) {
+    const toast = document.createElement("div");
+    toast.innerText = msg;
+    toast.style.position = "fixed";
+    toast.style.bottom = "80px";
+    toast.style.left = "50%";
+    toast.style.transform = "translateX(-50%)";
+    toast.style.background = "#000";
+    toast.style.border = "1px solid cyan";
+    toast.style.padding = "12px 18px";
+    toast.style.borderRadius = "12px";
+    toast.style.boxShadow = "0 0 18px cyan";
+    toast.style.zIndex = "999";
 
-    console.log("Rejected Booking ID:", id);
-
-    // TODO: Backend call
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 1800);
 }

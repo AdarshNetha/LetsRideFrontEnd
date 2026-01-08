@@ -13,13 +13,11 @@ async function fetchActiveBooking() {
 
         if (!mobileNo || !token) {
             alert("Missing data. Redirecting...");
-            window.location.href = "customer-dashboard.html";
+            // window.location.href = "customer-dashboard.html";
             return;
         }
 
-        const res = await fetch(
-            `${ACTIVE_BOOKING_API}/${mobileNo}`,
-            {
+        const res = await fetch(`${ACTIVE_BOOKING_API}/${mobileNo}`,{
                 method: "GET",
                 headers: {
                     "Authorization": token

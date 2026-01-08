@@ -13,7 +13,7 @@ async function fetchActiveBooking() {
 
         if (!mobileNo || !token) {
             alert("Missing data. Redirecting...");
-            window.location.href = "customer-dashboard.html";
+            // window.location.href = "customer-dashboard.html";
             return;
         }
 
@@ -36,7 +36,7 @@ async function fetchActiveBooking() {
     } catch (error) {
         console.error(error);
         alert("No active booking found");
-        // window.location.href = "customer-dashboard.html";
+        window.location.href = "customer-dashboard.html";
     }
 }
 

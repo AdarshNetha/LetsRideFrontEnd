@@ -112,40 +112,9 @@ document.addEventListener("DOMContentLoaded", () => {
         .catch(() => alert("Cash payment failed ❌"));
     };
 
-    /* ================= UPI PAYMENT ================= */
-    document.getElementById("upiBtn").onclick = () => {
-        const bookingId = localStorage.getItem("bookingId");
-
-        fetch(`http://localhost:8085/driver/payment/upi?bookingId=${bookingId}`, {
-            method: "POST",
-            headers: {
-                "Authorization": token
-            }
-        })
-        .then(res => res.json())
-        .then(result => {
-            showQrPopup(result.data);
-        })
-        .catch(() => alert("UPI payment failed ❌"));
-    };
-
-});
-
-/* ================= QR POPUP FUNCTIONS ================= */
-
-function showQrPopup(base64Data) {
-    const popup = document.getElementById("qrPopup");
-    const qrImg = document.getElementById("qrImage");
-
-    qrImg.src = "data:image/png;base64," + base64Data;
-    popup.classList.remove("hidden");
-
-    document.getElementById("qrOkBtn").onclick = confirmQrPayment;
-}
-
-function confirmQrPayment() {
+   /* ================= UPI PAYMENT & RIDE COMPLETED ================= */
+document.getElementById("upiBtn").onclick = () => {
     const bookingId = localStorage.getItem("bookingId");
-    const token = localStorage.getItem("token");
 
     fetch(`http://localhost:8085/driver/payment/qr?bookingId=${bookingId}&paymentType=UPI`, {
         method: "POST",
@@ -153,9 +122,28 @@ function confirmQrPayment() {
             "Authorization": token
         }
     })
-    .then(() => {
-        alert("UPI payment completed ✅");
-        window.location.href = "driverdashboard.html";
+    .then(res => res.json())
+    .then(result => {
+        showQrPopup(result.data);
     })
-    .catch(() => alert("QR confirmation failed ❌"));
+    .catch(() => alert("Failed to generate UPI QR ❌"));
+};
+
+
+});
+
+/* ================= QR POPUP FUNCTIONS ================= */
+function showQrPopup(base64Qr) {
+    const modal = document.getElementById("qrModal");
+    const qrImg = document.getElementById("qrImage");
+    const okBtn = document.getElementById("qrOkBtn");
+
+    qrImg.src = "data:image/png;base64," + base64Qr;
+    modal.classList.remove("hidden");
+    okBtn.onclick = () => {
+        modal.classList.add("hidden");
+        alert("UPI Payment Completed ✅");
+        window.location.href = "driverdashboard.html";
+    };
 }
+

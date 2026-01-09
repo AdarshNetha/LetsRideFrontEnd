@@ -81,6 +81,7 @@ async function cancelBooking(bookingId, customerId) {
 
     if (!confirmCancel) return;
 
+    
     try {
         const token = localStorage.getItem("token");
 

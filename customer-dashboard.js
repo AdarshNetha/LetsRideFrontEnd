@@ -72,3 +72,71 @@ document.getElementById("findDriverBtn").addEventListener("click", () => {
     window.location.href = "find-driver.html";
 });
 
+
+// ✅ Update button click
+document.getElementById("updateBtn").addEventListener("click", () => {
+    updateCustomerLocation();
+});
+
+function updateCustomerLocation() {
+
+    const mobileNo = localStorage.getItem("mobileNo");
+    const token = localStorage.getItem("token");
+
+    if (!mobileNo || !token) {
+        alert("User not logged in");
+        return;
+    }
+
+    // ✅ Get device location
+    if (!navigator.geolocation) {
+        alert("Geolocation is not supported by this browser");
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+        async (position) => {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            console.log("Latitude:", latitude, "Longitude:", longitude);
+
+            try {
+                const response = await fetch(
+                    `http://localhost:8085/customer/location?latitude=${latitude}&longitude=${longitude}&mobileNo=${mobileNo}`,
+                    {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": token
+                        }
+                    }
+                );
+
+                if (!response.ok) {
+                    alert("Failed to update location");
+                    return;
+                }
+
+                const result = await response.json();
+                console.log("Location updated:", result);
+
+                
+// ✅ Get current location from response
+const currentLocation = result.data.currentLoc;
+
+// ✅ Popup
+alert(`📍 Your current location is: ${currentLocation}`);
+
+            } catch (error) {
+                console.error("Error updating location:", error);
+            }
+        },
+        (error) => {
+            alert("Location permission denied");
+            console.error(error);
+        }
+    );
+}
+
+

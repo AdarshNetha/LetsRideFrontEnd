@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Driver Booking History</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="driver-booking-history.css">
+</head>
+<body>
+
+<div class="page">
+
+    <header class="page-header">
+        <h2>📜 Booking History</h2>
+        <button class="back-btn" onclick="goBack()">⬅ Back</button>
+    </header>
+
+    <!-- TOTAL EARNINGS -->
+    <div class="summary-card">
+        <h3>Total Earnings</h3>
+        <p id="totalFare">₹0</p>
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-card">
+        <table>
+            <thead>
+                <tr>
+                    <th>Booking ID</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Distance (km)</th>
+                    <th>Fare (₹)</th>
+                </tr>
+            </thead>
+            <tbody id="historyBody">
+                <tr>
+                    <td colspan="5" class="loading">Loading...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script src="driver-booking-history.js"></script>
+</body>
+</html>

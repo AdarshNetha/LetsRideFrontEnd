@@ -36,7 +36,7 @@ document.getElementById("driverForm").addEventListener("submit", function (e) {
     }
 
     const driverData = {
-        licenceNo: 0,
+        licenceNo: document.getElementById("licenceNo").value,
         name: document.getElementById("name").value,
         age: parseInt(document.getElementById("age").value),
         gender: document.getElementById("gender").value,

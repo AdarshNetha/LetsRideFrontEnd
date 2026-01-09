@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Driver Dashboard | Let's Ride</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="driverdashboard.css">
+</head>
+<body>
+
+<main class="driver-main">
+
+    <!-- LOCATION UPDATE -->
+    <section class="location-card">
+        <h2>📍 Update Location</h2>
+        <p>Keep your location updated to receive rides</p>
+        <button id="updateLocationBtn">Update Current Location</button>
+        <p id="locationStatus" class="status-text"></p>
+    </section>
+
+    <!-- ONLINE / OFFLINE -->
+    <section class="status-card">
+        <h2>Driver Status</h2>
+        <div class="status-toggle">
+            <span>Inactive</span>
+            <label class="switch">
+                <input type="checkbox" id="onlineToggle">
+                <span class="slider glowing"></span>
+            </label>
+            <span>Active</span>
+        </div>
+    </section>
+
+    <!-- BOOKING HISTORY -->
+    <section class="history-card">
+        <h2>📜 Booking History</h2>
+        <button onclick="goToHistory()">View Booking History</button>
+    </section>
+
+</main>
+
+<script src="driverdashboard.js"></script>
+</body>
+</html>

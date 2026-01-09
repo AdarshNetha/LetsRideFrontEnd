@@ -1,69 +1,76 @@
 const HISTORY_API = "http://localhost:8085/customer/booking-history";
 
 window.addEventListener("DOMContentLoaded", () => {
-    fetchBookingHistory();
+    loadBookingHistory();
 });
 
-async function fetchBookingHistory() {
+async function loadBookingHistory() {
+    const mobileNo = localStorage.getItem("mobileNo");
+    const token = localStorage.getItem("token");
+
+    if (!mobileNo || !token) {
+        alert("Please login again");
+        window.location.href = "customer-dashboard.html";
+        return;
+    }
+
     try {
-        const mobileNo = localStorage.getItem("mobileNo");
-        const token = localStorage.getItem("token");
-
-        if (!mobileNo || !token) {
-            alert("Missing data. Redirecting...");
-            window.location.href = "customer-dashboard.html";
-            return;
-        }
-
-        const res = await fetch(
+        const response = await fetch(
             `${HISTORY_API}?mobileno=${mobileNo}`,
             {
                 method: "GET",
                 headers: {
-                    "Authorization": token
+                    "Authorization": token,
+                    "Content-Type": "application/json"
                 }
             }
         );
 
-        if (!res.ok) {
+        if (!response.ok) {
             throw new Error("Failed to fetch booking history");
         }
 
-        const response = await res.json();
-        renderHistory(response.data);
+        const result = await response.json();
+        console.log("Booking History Response:", result);
 
-    } catch (err) {
-        console.error(err);
+        // ✅ FIX HERE
+        displayBookingHistory(result.data);
+
+    } catch (error) {
+        console.error("Error loading booking history:", error);
         alert("Unable to load booking history");
     }
 }
 
-function renderHistory(data) {
-    const container = document.getElementById("historyContainer");
-    const totalDiv = document.getElementById("totalAmount");
+function displayBookingHistory(data) {
+    const historyContainer = document.getElementById("historyContainer");
+    const totalAmountDiv = document.getElementById("totalAmount");
 
-    container.innerHTML = "";
+    historyContainer.innerHTML = "";
+    totalAmountDiv.innerHTML = "";
 
-    if (!data || !data.bookings || data.bookings.length === 0) {
-        container.innerHTML = "<p>No booking history found</p>";
-        totalDiv.innerHTML = "";
+    // ✅ CHANGE bookings → history
+    if (!data || !data.history || data.history.length === 0) {
+        historyContainer.innerHTML = "<p>No booking history found</p>";
         return;
     }
 
-    data.bookings.forEach(b => {
+    data.history.forEach(booking => {
         const card = document.createElement("div");
         card.className = "card";
 
         card.innerHTML = `
-            <p><strong>Booking ID:</strong> ${b.bookingId}</p>
-            <p><strong>From:</strong> ${b.fromLocation}</p>
-            <p><strong>To:</strong> ${b.toLocation}</p>
-            <p><strong>Distance:</strong> ${b.distance} km</p>
-            <p><strong>Fare:</strong> ₹${b.fare}</p>
+            <p><strong>Booking ID:</strong> ${booking.bookingId}</p>
+            <p><strong>From:</strong> ${booking.fromLocation}</p>
+            <p><strong>To:</strong> ${booking.toLocation}</p>
+            <p><strong>Distance:</strong> ${booking.distance.toFixed(2)} km</p>
+            <p><strong>Fare:</strong> ₹${booking.fare.toFixed(2)}</p>
+            <p><strong>Status:</strong> COMPLETED</p>
         `;
 
-        container.appendChild(card);
+        historyContainer.appendChild(card);
     });
 
-    totalDiv.innerText = `Total Amount Spent: ₹${data.totalAmount.toFixed(2)}`;
+    totalAmountDiv.innerText =
+        `Total Amount Spent: ₹${data.totalAmount.toFixed(2)}`;
 }

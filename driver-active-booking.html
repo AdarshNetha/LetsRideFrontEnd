@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Driver Active Booking</title>
+    <link rel="stylesheet" href="driver-active-booking.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Active Booking</h2>
+
+    <div id="bookingCard" class="card hidden">
+        <p><strong>Customer Name:</strong> <span id="custName"></span></p>
+        <p><strong>Mobile No:</strong> <span id="custMobile"></span></p>
+        <p><strong>Pickup Location:</strong> <span id="pickup"></span></p>
+        <p><strong>Booking Status:</strong> <span id="status"></span></p>
+
+    <!-- ACTIONS (shown only when status = BOOKED) -->
+        <div id="actionBox" class="hidden">
+            <input type="number" id="otpInput" placeholder="Enter OTP" />
+            <div class="btn-group">
+                 <button id="pickupBtn">Pick Up</button>
+                <button id="cancelBtn">Cancel</button>
+            </div>
+        </div>
+        <!-- PAYMENT ACTIONS (shown only when status = ON_GOING) -->
+       <div id="paymentBox" class="hidden">
+           <div class="btn-group">
+              <button id="cashBtn">Cash & Ride Completed</button>
+              <button id="upiBtn">UPI & Ride Completed</button>
+           </div>
+        </div>
+
+    </div>
+    
+    <p id="msg"></p>
+</div>
+<div id="qrModal" class="modal hidden">
+    <div class="modal-content">
+        <h3>Scan to Pay (UPI)</h3>
+        <img id="qrImage" alt="UPI QR Code" />
+        <br><br>
+        <button id="qrOkBtn">OK</button>
+    </div>
+</div>
+
+<script src="driver-active-booking.js"></script>
+</body>
+</html>

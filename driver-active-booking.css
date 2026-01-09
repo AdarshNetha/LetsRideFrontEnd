@@ -1,0 +1,107 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #0f2027;
+    background: linear-gradient(to right, #2c5364, #203a43, #0f2027);
+    color: white;
+}
+
+.container {
+    width: 400px;
+    margin: 80px auto;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.4);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.card {
+    background: rgba(0,0,0,0.4);
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.hidden {
+    display: none;
+}
+
+#msg {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+}
+#actionBox {
+    margin-top: 15px;
+    text-align: center;
+}
+
+#otpInput {
+    width: 90%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    border: none;
+    outline: none;
+}
+
+.btn-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+button {
+    width: 48%;
+    padding: 8px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#pickupBtn {
+    background-color: #28a745;
+    color: white;
+}
+
+#cancelBtn {
+    background-color: #dc3545;
+    color: white;
+}
+
+#cashBtn {
+    background-color: #ffc107;
+    color: black;
+}
+
+#upiBtn {
+    background-color: #007bff;
+    color: white;
+}
+.hidden {
+    display: none;
+}
+
+.modal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}

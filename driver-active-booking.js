@@ -9,13 +9,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const actionBox = document.getElementById("actionBox");
     const paymentBox = document.getElementById("paymentBox");
 
+    // ================= AUTH CHECK =================
     if (!mobileNo || !token) {
         msg.innerText = "Unauthorized access ❌";
         msg.style.color = "red";
         return;
     }
 
-    /* ================= FETCH ACTIVE BOOKING ================= */
+    // ================= FETCH ACTIVE BOOKING =================
     fetch(`http://localhost:8085/driver/availableBooking?mobileno=${mobileNo}`, {
         method: "GET",
         headers: {
@@ -34,6 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const data = result.data;
         localStorage.setItem("bookingId", data.bookingid);
 
+        // ================= FILL BOOKING DETAILS =================
         document.getElementById("custName").innerText = data.customerName;
         document.getElementById("custMobile").innerText = data.mobileNo;
         document.getElementById("pickup").innerText = data.source;
@@ -41,17 +43,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
         card.classList.remove("hidden");
 
-        if (data.bookingstatus === "BOOKED") {
-            actionBox.classList.remove("hidden");
+        // ================= RESET UI STATE =================
+        actionBox.classList.add("hidden");
+        paymentBox.classList.add("hidden");
+
+        // ================= STATUS BASED UI =================
+        switch (data.bookingstatus) {
+
+            case "BOOKED":
+                actionBox.classList.remove("hidden");
+                break;
+
+            case "STARTED":
+                paymentBox.classList.remove("hidden");
+                break;
+
+            case "COMPLETED":
+                window.location.href = "driverdashboard.html";
+                break;
         }
 
-        if (data.bookingstatus === "STARTED" || data.bookingstatus === "on Going") {
-            paymentBox.classList.remove("hidden");
-        }
-
-        /* ================= PICKUP ================= */
+        // ================= PICKUP (OTP VERIFY) =================
         document.getElementById("pickupBtn").onclick = () => {
+
             const otp = document.getElementById("otpInput").value;
+
             if (!otp) {
                 alert("Please enter OTP");
                 return;
@@ -66,6 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(res => res.json())
             .then(() => {
                 alert("Pickup confirmed ✅");
+
                 document.getElementById("status").innerText = "STARTED";
                 actionBox.classList.add("hidden");
                 paymentBox.classList.remove("hidden");
@@ -73,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
             .catch(() => alert("Invalid OTP ❌"));
         };
 
-        /* ================= CANCEL ================= */
+        // ================= CANCEL BOOKING =================
         document.getElementById("cancelBtn").onclick = () => {
             fetch(`http://localhost:8085/driver/booking/${data.bookingid}/cancel?driverId=${driverID}`, {
                 method: "PUT",
@@ -94,8 +111,9 @@ document.addEventListener("DOMContentLoaded", () => {
         msg.style.color = "yellow";
     });
 
-    /* ================= CASH PAYMENT ================= */
+    // ================= CASH PAYMENT =================
     document.getElementById("cashBtn").onclick = () => {
+
         const bookingId = localStorage.getItem("bookingId");
 
         fetch(`http://localhost:8085/driver/payment/cash?bookingId=${bookingId}&paymentType=CASH`, {
@@ -112,38 +130,39 @@ document.addEventListener("DOMContentLoaded", () => {
         .catch(() => alert("Cash payment failed ❌"));
     };
 
-   /* ================= UPI PAYMENT & RIDE COMPLETED ================= */
-document.getElementById("upiBtn").onclick = () => {
-    const bookingId = localStorage.getItem("bookingId");
+    // ================= UPI PAYMENT =================
+    document.getElementById("upiBtn").onclick = () => {
 
-    fetch(`http://localhost:8085/driver/payment/qr?bookingId=${bookingId}&paymentType=UPI`, {
-        method: "POST",
-        headers: {
-            "Authorization": token
-        }
-    })
-    .then(res => res.json())
-    .then(result => {
-        showQrPopup(result.data);
-    })
-    .catch(() => alert("Failed to generate UPI QR ❌"));
-};
+        const bookingId = localStorage.getItem("bookingId");
 
+        fetch(`http://localhost:8085/driver/payment/upi?bookingId=${bookingId}`, {
+            method: "POST",
+            headers: {
+                "Authorization": token
+            }
+        })
+        .then(res => res.json())
+        .then(result => {
+            showQrPopup(result.data);
+        })
+        .catch(() => alert("Failed to generate UPI QR ❌"));
+    };
 
 });
 
-/* ================= QR POPUP FUNCTIONS ================= */
+// ================= QR POPUP =================
 function showQrPopup(base64Qr) {
+
     const modal = document.getElementById("qrModal");
     const qrImg = document.getElementById("qrImage");
     const okBtn = document.getElementById("qrOkBtn");
 
     qrImg.src = "data:image/png;base64," + base64Qr;
     modal.classList.remove("hidden");
+
     okBtn.onclick = () => {
         modal.classList.add("hidden");
         alert("UPI Payment Completed ✅");
         window.location.href = "driverdashboard.html";
     };
 }
-

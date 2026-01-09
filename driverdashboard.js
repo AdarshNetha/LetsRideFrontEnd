@@ -1,99 +1,152 @@
-/* CHECK VEHICLE AVAILABILITY ON PAGE LOAD */
+/***********************
+ * AUTH GUARD
+ ***********************/
+const role = localStorage.getItem("role");
+const mobileNo = localStorage.getItem("mobileNo");
+const token = localStorage.getItem("token");
+
+if (!role || !role.includes("DRIVER") || !mobileNo || !token) {
+    alert("Unauthorized ❌ Please login again");
+    window.location.href = "login.html";
+}
+
+/***********************
+ * CHECK DRIVER & VEHICLE STATUS ON PAGE LOAD
+ ***********************/
 window.addEventListener("load", () => {
 
-    const mobileNo = localStorage.getItem("mobileNo");
-    const token = localStorage.getItem("token");
-
-    if (!mobileNo) {
-        alert("Please login again");
-        window.location.href = "login.html";
-        return;
-    }
-    
     fetch(`http://localhost:8085/driver/${mobileNo}`, {
         method: "GET",
         headers: {
-            "Authorization": `${token}`,
+            "Authorization": token,
             "Content-Type": "application/json"
         }
     })
-    .then(res => res.json())
+    .then(res => {
+        if (!res.ok) {
+            throw new Error("Failed to fetch driver");
+        }
+        return res.json();
+    })
     .then(response => {
+
+        console.log("Driver Details:", response);
+
+        // store driver id
+        localStorage.setItem("driverID", response.data.id);
 
         const vehicleStatus =
             response?.data?.vehicle?.availabilityStatus;
 
         console.log("Vehicle Status:", vehicleStatus);
-        localStorage.setItem("driverID",response.data.id);
-        if (vehicleStatus && vehicleStatus !== "AVAILABLE") {
+
+        // if vehicle is booked → go to active booking page
+        if (vehicleStatus === "BOOKED") {
             window.location.href = "driver-active-booking.html";
         }
 
     })
     .catch(err => {
-        console.error("Failed to fetch driver details", err);
+        console.error("Driver fetch error:", err);
+        alert("Unable to load driver details");
     });
 });
-/* AUTH GUARD */
-const role = localStorage.getItem("role");
-const mobileNo = localStorage.getItem("mobileNo");
-console.log(mobileNo);
 
-if (!role || !role.includes("DRIVER")) {
-    alert("Unauthorized ❌");
-    window.location.href = "login.html";
-}
-
-/* UPDATE LOCATION */
+/***********************
+ * UPDATE LOCATION
+ ***********************/
 document.getElementById("updateLocationBtn").addEventListener("click", () => {
-
-    const mobileNo = localStorage.getItem("mobileNo");
-
-    if (!mobileNo) {
-        alert("Please login again");
-        return;
-    }
 
     if (!navigator.geolocation) {
         alert("Geolocation not supported");
         return;
     }
 
-    navigator.geolocation.getCurrentPosition(position => {
+    navigator.geolocation.getCurrentPosition(
+        position => {
 
-        const latitude = position.coords.latitude;
-        const longitude = position.coords.longitude;
-        const token = localStorage.getItem("token");
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
 
-        fetch(`http://localhost:8085/driver/location?latitude=${latitude}&longitude=${longitude}&mobileNo=${mobileNo}`, {
-            method: "PUT",
+            fetch(
+                `http://localhost:8085/driver/location?latitude=${latitude}&longitude=${longitude}&mobileNo=${mobileNo}`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Authorization": token,
+                        "Content-Type": "application/json"
+                    }
+                }
+            )
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error("Location update failed");
+                }
+                return res.json();
+            })
+            .then(() => {
+                document.getElementById("locationStatus").innerText =
+                    `📍 Updated: ${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
+                showToast("📍 Location Updated");
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Location update failed");
+            });
+        },
+        () => alert("Location permission denied")
+    );
+});
+
+/***********************
+ * ONLINE / OFFLINE TOGGLE
+ ***********************/
+document.getElementById("onlineToggle").addEventListener("change", (e) => {
+
+    const status = e.target.checked ? "AVAILABLE" : "UNAVAILABLE";
+
+    fetch(
+        `http://localhost:8085/driver/AvailableDriver?mobileno=${mobileNo}&status=${status}`,
+        {
+            method: "GET",
             headers: {
-        "Authorization": `${token}`,
-        "Content-Type": "application/json"
-    }
-    
-        })
-        .then(res => res.json())
-        .then(data => {
-            document.getElementById("locationStatus").innerText =
-                `📍 Updated: ${latitude.toFixed(5)}, ${longitude.toFixed(5)}`;
-            showToast("📍 Location Updated");
-        })
-        .catch(() => alert("Location update failed"));
+                "Authorization": token,
+                "Content-Type": "application/json"
+            }
+        }
+    )
+    .then(res => {
+        if (!res.ok) {
+            throw new Error("Status update failed");
+        }
+        return res.json();
+    })
+    .then(response => {
+        console.log("Driver Status Updated:", response);
+
+        showToast(
+            status === "AVAILABLE"
+                ? "🟢 You are now AVAILABLE"
+                : "🔴 You are now UNAVAILABLE"
+        );
+    })
+    .catch(err => {
+        console.error(err);
+        alert("Unable to update status");
+        e.target.checked = !e.target.checked; // rollback toggle
     });
 });
 
-/* ONLINE / OFFLINE */
-document.getElementById("onlineToggle").addEventListener("change", e => {
-    showToast(e.target.checked ? "🟢 You are Active" : "🔴 You are Inactive");
-});
-
-/* BOOKING HISTORY */
+/***********************
+ * GO TO BOOKING HISTORY
+ ***********************/
 function goToHistory() {
     window.location.href = "driver-booking-history.html";
 }
 
-/* TOAST */
+/***********************
+ * TOAST MESSAGE
+ ***********************/
 function showToast(msg) {
     const toast = document.createElement("div");
     toast.innerText = msg;
@@ -106,6 +159,7 @@ function showToast(msg) {
     toast.style.padding = "12px 18px";
     toast.style.borderRadius = "12px";
     toast.style.boxShadow = "0 0 18px cyan";
+    toast.style.color = "#fff";
     toast.style.zIndex = "999";
 
     document.body.appendChild(toast);

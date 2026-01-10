@@ -150,19 +150,40 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-// ================= QR POPUP =================
+/// ================= QR POPUP =================
 function showQrPopup(base64Qr) {
 
     const modal = document.getElementById("qrModal");
     const qrImg = document.getElementById("qrImage");
     const okBtn = document.getElementById("qrOkBtn");
 
+    const bookingId = localStorage.getItem("bookingId");
+    const token = localStorage.getItem("token");
+
     qrImg.src = "data:image/png;base64," + base64Qr;
     modal.classList.remove("hidden");
 
     okBtn.onclick = () => {
-        modal.classList.add("hidden");
-        alert("UPI Payment Completed ✅");
-        window.location.href = "driverdashboard.html";
+
+        fetch(`http://localhost:8085/driver/payment/qr?bookingId=${bookingId}&paymentType=QR`, {
+            method: "POST",
+            headers: {
+                "Authorization": token
+            }
+        })
+        .then(res => {
+            if (!res.ok) {
+                throw new Error("QR payment failed");
+            }
+            return res.json();
+        })
+        .then(() => {
+            alert("UPI QR Payment Completed ✅");
+            modal.classList.add("hidden");
+            window.location.href = "driverdashboard.html";
+        })
+        .catch(() => {
+            alert("Payment confirmation failed ❌");
+        });
     };
 }
